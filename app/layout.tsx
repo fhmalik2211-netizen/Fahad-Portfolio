@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   description: "The portfolio of Fahad Ahmed, an independent developer and designer.",
   keywords: ["Fahad Ahmed", "full-stack developer", "web developer", "React", "Next.js"],
   creator: "Fahad Ahmed",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
   openGraph: {
     title: "Fahad Ahmed | Developer & Designer",
     description: "The portfolio of Fahad Ahmed, an independent developer and designer.",

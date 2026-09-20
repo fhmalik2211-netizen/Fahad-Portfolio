@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>FA portfolio logo</title>
+  <rect width="64" height="64" rx="16" fill="#102a1c"/>
+  <path d="M15 45V19h20v6H22v5h11v6H22v9z" fill="#eff7f0"/>
+  <path d="m38 45 9-26h8l9 26h-7l-2-6H45l-2 6zm9-12h6l-3-9z" fill="#eff7f0"/>
+  <circle cx="54" cy="15" r="4" fill="#65d391"/>
+</svg>
