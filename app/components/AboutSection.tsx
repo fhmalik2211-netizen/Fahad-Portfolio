@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function AboutSection() {
   return (
     <section className="mx-auto max-w-[1240px] border-t border-[var(--line)] px-[5vw] pb-32 pt-8" id="about">
@@ -11,9 +13,12 @@ export default function AboutSection() {
         <div className="relative">
           <div className="rounded-[32px] border border-[var(--line)] bg-[rgba(255,255,255,0.18)] p-3 shadow-[0_24px_60px_rgba(16,42,28,0.08)] backdrop-blur-sm">
             <div className="overflow-hidden rounded-[24px] border border-[var(--line)] bg-[var(--background)]">
-              <img
+              <Image
                 src="/ChatGPT Image Sep 20, 2026, 06_12_43 AM.png"
                 alt="Fahad Ahmed in a formal suit"
+                width={1086}
+                height={1448}
+                sizes="(max-width: 1024px) 90vw, 600px"
                 className="h-[520px] w-full object-cover object-center md:h-[620px]"
               />
             </div>

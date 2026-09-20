@@ -15,6 +15,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Fahad Ahmed | Developer & Designer",
   description: "The portfolio of Fahad Ahmed, an independent developer and designer.",
+  keywords: ["Fahad Ahmed", "full-stack developer", "web developer", "React", "Next.js"],
+  creator: "Fahad Ahmed",
+  openGraph: {
+    title: "Fahad Ahmed | Developer & Designer",
+    description: "The portfolio of Fahad Ahmed, an independent developer and designer.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Fahad Ahmed | Developer & Designer",
+    description: "The portfolio of Fahad Ahmed, an independent developer and designer.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
