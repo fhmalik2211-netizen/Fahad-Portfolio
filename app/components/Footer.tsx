@@ -21,9 +21,9 @@ export default function Footer() {
           </a>
           <a
             className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-3 py-1.5 text-[.65rem] font-medium tracking-[.12em] text-[var(--foreground)] transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--accent)]"
-            href="mailto:hello@fahad.dev"
+            href="mailto:unknownfahai@gmail.com"
           >
-            hello@fahad.dev
+            unknownfahai@gmail.com
           </a>
         </div>
       </div>

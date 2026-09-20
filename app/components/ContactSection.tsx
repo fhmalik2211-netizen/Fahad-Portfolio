@@ -17,9 +17,9 @@ export default function ContactSection() {
 
           <a
             className="group inline-flex items-center gap-3 rounded-full border border-[var(--accent)] bg-[var(--accent)] px-5 py-3 text-[.82rem] font-semibold uppercase tracking-[.12em] text-[var(--background)] shadow-[0_12px_28px_rgba(35,131,79,0.2)] transition-all duration-200 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-            href="mailto:hello@fahad.dev"
+            href="mailto:unknownfahai@gmail.com"
           >
-            hello@fahad.dev
+            unknownfahai@gmail.com
             <span
               className="inline-flex text-[1.1rem] text-[var(--background)] transition-transform duration-200 group-hover:translate-x-1"
               aria-hidden="true"
