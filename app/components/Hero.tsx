@@ -122,7 +122,7 @@ export default function Hero() {
           transition={{ ...motionTransition, delay: shouldReduceMotion ? 0 : 0.25 }}
         >
           <motion.div
-            className="rounded-[28px] border border-[var(--line)] bg-[rgba(255,255,255,0.32)] p-5 shadow-[0_28px_80px_rgba(16,42,28,0.08)] backdrop-blur-md"
+            className="rounded-[28px] border border-[var(--line)] bg-[rgba(255,255,255,0.32)] p-5 shadow-[0_28px_80px_rgba(16,42,28,0.08)] backdrop-blur-md dark:bg-[color-mix(in_srgb,var(--background)_90%,var(--accent)_10%)]"
             whileHover={shouldReduceMotion ? undefined : { y: -5, transition: { duration: 0.3 } }}
           >
             <div className="mb-5 flex items-center justify-between">
@@ -173,7 +173,7 @@ export default function Hero() {
         {stats.map((stat) => (
           <motion.div
             key={stat.label}
-            className="rounded-2xl border border-[var(--line)] bg-[rgba(255,255,255,0.24)] p-4 shadow-[0_12px_30px_rgba(16,42,28,0.04)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50"
+            className="rounded-2xl border border-[var(--line)] bg-[rgba(255,255,255,0.24)] p-4 shadow-[0_12px_30px_rgba(16,42,28,0.04)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50 dark:bg-[color-mix(in_srgb,var(--background)_92%,var(--accent)_8%)]"
             variants={heroContent}
             transition={motionTransition}
           >

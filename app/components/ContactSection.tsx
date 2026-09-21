@@ -96,7 +96,7 @@ export default function ContactSection() {
               </div>
             </div>
 
-            <form className="mt-10 rounded-[22px] border border-[var(--line)] bg-[color-mix(in_srgb,var(--background)_72%,white_28%)] p-5 sm:p-6" onSubmit={onSubmit}>
+            <form className="mt-10 rounded-[22px] border border-[var(--line)] bg-[color-mix(in_srgb,var(--background)_72%,white_28%)] p-5 sm:p-6 dark:bg-[color-mix(in_srgb,var(--background)_92%,var(--accent)_8%)]" onSubmit={onSubmit}>
               <div className="flex items-center justify-between gap-4 border-b border-[var(--line)] pb-4">
                 <p className="m-0 text-[.68rem] font-bold uppercase tracking-[.15em] text-[var(--muted)]">
                   Project enquiry

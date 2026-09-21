@@ -1,11 +1,11 @@
 const skills = [
   {
     category: "Frontend",
-    items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "UI Systems"],
+    items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "UI Systems" , "Responsive Design" , "Accessibility" , "Performance Optimization" , "State Management" , "Component Libraries" , "Redux Toolkit" , "Redux js"],
   },
   {
     category: "Backend",
-    items: ["Node.js", "Express", "API Design", "PostgreSQL", "MongoDB"],
+    items: ["Node.js", "Express", "API Design", "PostgreSQL", "MongoDB" , "Authentication" , "Authorization" , "RESTful APIs" , "My SQL" , "Queues"],
   },
   {
     category: "Product",
