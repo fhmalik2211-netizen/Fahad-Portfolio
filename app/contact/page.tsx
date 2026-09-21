@@ -4,8 +4,17 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Contact | Fahad Hassan",
-  description: "Get in touch with Fahad Hassan about websites, product builds, and thoughtful fixes.",
+  title: "Contact",
+  description:
+    "Contact Fahad Hassan about websites, product builds, and thoughtful fixes for digital products.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact Fahad Hassan",
+    description:
+      "Start a conversation about your next website or digital product.",
+    type: "website",
+    url: "/contact",
+  },
 };
 
 export default function ContactPage() {
