@@ -19,7 +19,7 @@ export default function Hero() {
     { label: "Years experience", value: "2+" },
     { label: "Projects shipped", value: "10+" },
     { label: "Core stack", value: "MERN" },
-    { label: "Based in", value: "Islamabad" },
+    { label: "Based in", value: "Chiniot, Sargodha" },
   ];
   const shouldReduceMotion = useReducedMotion();
   const motionTransition = shouldReduceMotion

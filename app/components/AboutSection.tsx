@@ -15,7 +15,7 @@ export default function AboutSection() {
             <div className="overflow-hidden rounded-[24px] border border-[var(--line)] bg-[var(--background)]">
               <Image
                 src="/ChatGPT Image Sep 20, 2026, 06_12_43 AM.png"
-                alt="Fahad Ahmed in a formal suit"
+                alt="Fahad Hassan in a formal suit"
                 width={1086}
                 height={1448}
                 sizes="(max-width: 1024px) 90vw, 600px"

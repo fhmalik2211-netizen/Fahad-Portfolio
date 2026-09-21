@@ -13,23 +13,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fahad Ahmed | Developer & Designer",
-  description: "The portfolio of Fahad Ahmed, an independent developer and designer.",
-  keywords: ["Fahad Ahmed", "full-stack developer", "web developer", "React", "Next.js"],
-  creator: "Fahad Ahmed",
+  title: "Fahad Hassan | Developer & Designer",
+  description: "The portfolio of Fahad Hassan, an independent developer and designer.",
+  keywords: ["Fahad Hassan", "full-stack developer", "web developer", "React", "Next.js"],
+  creator: "Fahad Hassan",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
   openGraph: {
-    title: "Fahad Ahmed | Developer & Designer",
-    description: "The portfolio of Fahad Ahmed, an independent developer and designer.",
+    title: "Fahad Hassan | Developer & Designer",
+    description: "The portfolio of Fahad Hassan, an independent developer and designer.",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Fahad Ahmed | Developer & Designer",
-    description: "The portfolio of Fahad Ahmed, an independent developer and designer.",
+    title: "Fahad Hassan | Developer & Designer",
+    description: "The portfolio of Fahad Hassan, an independent developer and designer.",
   },
 };
 

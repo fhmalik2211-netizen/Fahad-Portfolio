@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="border-t border-[var(--line)] bg-[var(--background)]/80">
@@ -5,12 +7,12 @@ export default function Footer() {
         <p className="m-0 font-medium">© 2026 Fahad Hassan</p>
 
         <div className="flex flex-wrap items-center gap-5 sm:gap-8">
-          <a
+          <Link
             className="transition-colors duration-200 hover:text-[var(--foreground)]"
-            href="#top"
+            href="/#top"
           >
             Back to top ↑
-          </a>
+          </Link>
           <a
             className="transition-colors duration-200 hover:text-[var(--foreground)]"
             href="https://www.linkedin.com"

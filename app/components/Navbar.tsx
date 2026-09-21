@@ -33,11 +33,11 @@ export default function Navbar() {
   }
 
   const navLinks = [
-      { href: "#about", label: "About" },
-      { href: "#skills", label: "Skills" },
-      { href: "#services", label: "Services" },
-    { href: "#experience", label: "Experience" },
-    { href: "#contact", label: "Contact" },
+    { href: "/#about", label: "About" },
+    { href: "/#skills", label: "Skills" },
+    { href: "/#services", label: "Services" },
+    { href: "/#experience", label: "Experience" },
+    { href: "/contact", label: "Contact" },
   ];
 
   return (
@@ -79,7 +79,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3 sm:gap-4">
           <a
             className="hidden items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--background)]/80 px-3 py-1.5 text-[.68rem] font-medium tracking-[.04em] text-[var(--muted)] shadow-[0_8px_20px_rgba(16,42,28,0.02)] transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--foreground)] sm:flex"
-            href="#contact"
+            href="/contact"
           >
             <span className="relative flex h-[7px] w-[7px]">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" />
@@ -177,7 +177,7 @@ export default function Navbar() {
               ))}
 
               <a
-                href="#contact"
+                href="/contact"
                 onClick={() => setMobileOpen(false)}
                 className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--foreground)] px-4 py-3 text-[.75rem] font-medium tracking-[.08em] text-[var(--background)] uppercase"
               >
