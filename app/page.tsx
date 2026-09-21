@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import dynamic from "next/dynamic";
+import AgentChat from "./components/AgentChat";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 
@@ -104,6 +105,8 @@ export default function Home() {
         <Footer />
       </motion.div>
       </main>
+
+      <AgentChat />
     </>
   );
 }
