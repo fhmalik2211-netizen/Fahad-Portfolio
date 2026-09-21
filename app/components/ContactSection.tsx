@@ -1,15 +1,18 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import SubmissionModal, { SubmissionStatus } from "./SubmissionModal";
 
 export default function ContactSection() {
   const [result, setResult] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus | null>(null);
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
       event.preventDefault();
       setIsSending(true);
       setResult("");
+      setSubmissionStatus(null);
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -24,19 +27,23 @@ export default function ContactSection() {
 
       if (data.success) {
         setResult("Thanks, your message is on its way.");
+        setSubmissionStatus("success");
         form.reset();
       } else {
         setResult("Something went wrong. Please email me directly.");
+        setSubmissionStatus("error");
       }
     } catch {
       setResult("Something went wrong. Please email me directly.");
+      setSubmissionStatus("error");
     } finally {
       setIsSending(false);
     }
   }
 
   return (
-    <section
+    <>
+      <section
       className="relative overflow-hidden border-t border-[var(--line)] bg-[var(--background)] px-[5vw] pb-24 pt-8 sm:pb-32 sm:pt-12"
       id="contact"
       aria-labelledby="contact-heading"
@@ -182,6 +189,11 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
-    </section>
+      </section>
+
+      {submissionStatus && (
+        <SubmissionModal status={submissionStatus} onClose={() => setSubmissionStatus(null)} />
+      )}
+    </>
   );
 }
