@@ -2,18 +2,38 @@ export const runtime = "nodejs";
 
 const DEFAULT_BASE_URL = "https://openrouter.ai/api/v1";
 const DEFAULT_MODEL = "openai/gpt-4o-mini";
+const CONTACT_EMAIL = "unknownfahai@gmail.com";
 
-const systemPrompt = `You are a professional AI assistant representing Fahad's portfolio website.
-Your job is to answer visitor questions about his services, experience, skills, products, workflow, and how to collaborate.
-Keep answers concise, confident, and polished. Speak naturally and professionally.
-When appropriate, mention that Fahad builds full-stack products, UI/UX systems, and modern digital experiences.
-If asked for direct contact, politely guide the user to the contact section or say to reach out via the website contact form.
-Do not claim facts beyond the portfolio context. If unsure, say you can help connect them with the portfolio owner.`;
+const systemPrompt = `You are Fahad Hassan's portfolio assistant. Answer visitors directly using the verified portfolio facts below.
+
+VERIFIED PORTFOLIO FACTS
+- Fahad has about 2 years of combined professional and independent development experience.
+- Experience: 1+ year as a Full-Stack Developer at GoEnterprise, 6 months as a Developer at WP Rogers, and 6 months building self projects as an Independent Builder.
+- He builds full-stack web products, ecommerce websites, end-to-end websites, responsive interfaces, backend systems, APIs, and UI systems.
+- Frontend skills: Next.js, React, TypeScript, Tailwind CSS, responsive design, accessibility, performance optimization, state management, Redux Toolkit, and component libraries.
+- Backend skills: Node.js, Express, RESTful API design, PostgreSQL, MongoDB, MySQL, authentication, authorization, and queues.
+- Services: ecommerce websites, website redesigns, bug fixing, optimization, frontend development, backend development, API/CMS integrations, performance, and accessibility improvements.
+- He can help from early planning through design, development, launch, and final polish.
+- Direct email: ${CONTACT_EMAIL}.
+- Location: Chiniot, Sargodha.
+- He usually replies within two business days.
+
+ANSWERING RULES
+- Answer the visitor's exact question first. Do not make them ask again for a fact listed above.
+- For experience questions, always state: "Fahad has about 2 years of combined experience" and briefly break down the roles when useful.
+- For skills or stack questions, group technologies by frontend, backend, and product instead of dumping an unstructured list.
+- For service questions, recommend the most relevant service and ask one useful follow-up question only when needed.
+- For hiring or contact questions, give the direct email ${CONTACT_EMAIL} and also mention the website contact section.
+- If someone asks only for Fahad's email, answer immediately with exactly: "Fahad's email is ${CONTACT_EMAIL}. You can also use the contact form on this website."
+- Keep normal answers to 2-5 short sentences. Use bullets when listing several items.
+- Be confident, warm, and professional. Never invent clients, dates, prices, results, degrees, or technologies not listed above.
+- If a detail is not in the verified facts, say that it is not listed and offer to help with the available portfolio information.
+- Match the visitor's language when practical, including Urdu or Roman Urdu, while keeping technical names in English.`;
 
 export async function POST(request: Request) {
-  const apiKey = process.env.AI_API_KEY;
+  const configuredApiKey = process.env.AI_API_KEY?.trim();
 
-  if (!apiKey) {
+  if (!configuredApiKey) {
     return Response.json(
       {
         error:
@@ -24,6 +44,7 @@ export async function POST(request: Request) {
   }
 
   try {
+    const apiKey = configuredApiKey.replace(/^Bearer\s+/i, "");
     const body = await request.json();
     const userMessage = typeof body?.message === "string" ? body.message.trim() : "";
 
@@ -31,29 +52,40 @@ export async function POST(request: Request) {
       return Response.json({ error: "A message is required." }, { status: 400 });
     }
 
+    const normalizedMessage = userMessage.toLowerCase();
+    const isContactQuestion =
+      /\b(email|e-mail|mail|contact|reach|hire|hiring|work with|whatsapp)\b/.test(
+        normalizedMessage,
+      );
+    const asksForEmail = /\b(email|e-mail|mail)\b/.test(normalizedMessage);
+
+    if (isContactQuestion && asksForEmail) {
+      return Response.json({
+        answer: `Fahad's email is ${CONTACT_EMAIL}. You can also use the contact form on this website.`,
+      });
+    }
+
     const baseUrl = process.env.AI_BASE_URL || DEFAULT_BASE_URL;
     const model = process.env.AI_MODEL || DEFAULT_MODEL;
 
-   // ...existing code...
-
-    const response = await fetch(`${baseUrl}/chat/completions`, {
+    const response = await fetch(`${baseUrl.replace(/\/$/, "")}/chat/completions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
-        "HTTP-Referer": "http://localhost:3000",
-        "X-Title": "Fahad Portfolio",
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001",
+        "X-Title": "Fahad Portfolio Agent",
       },
       body: JSON.stringify({
         model,
+        temperature: 0.3,
+        max_tokens: 300,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userMessage },
         ],
       }),
     });
-
-// ...existing code...
 
     const contentType = response.headers.get("content-type") || "";
     const responseText = await response.text();
@@ -70,6 +102,11 @@ export async function POST(request: Request) {
         }
       } else {
         errorMessage = responseText || errorMessage;
+      }
+
+      if (response.status === 401) {
+        errorMessage =
+          "The AI provider rejected the API key. Check that AI_API_KEY is a valid key for AI_BASE_URL.";
       }
 
       return Response.json({ error: errorMessage }, { status: response.status || 500 });
