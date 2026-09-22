@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const heroContent = {
   hidden: { opacity: 0, y: 18 },
@@ -21,29 +22,57 @@ export default function Hero() {
     { label: "Core stack", value: "MERN" },
     { label: "Based in", value: "Chiniot, Sargodha" },
   ];
+  const sectionRef = useRef<HTMLElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
   const motionTransition = shouldReduceMotion
     ? { duration: 0 }
     : { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const };
 
+  const glowY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const glowX = useTransform(scrollYProgress, [0, 1], [0, 45]);
+  const gridY = useTransform(scrollYProgress, [0, 1], [0, -24]);
+
+  const floatingGlow = shouldReduceMotion
+    ? undefined
+    : { y: [0, -12, 0], scale: [1, 1.08, 1], transition: { duration: 10, repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const } };
+
   return (
     <section
+      ref={sectionRef}
       className="relative mx-auto mt-8 max-w-[1240px] overflow-hidden rounded-[32px] border border-[var(--line)] bg-[color-mix(in_srgb,var(--background)_90%,var(--accent)_10%)] px-[5vw] pb-20 pt-[5.5rem] shadow-[0_24px_70px_rgba(16,42,28,0.05)] md:mt-10 md:pb-24 md:pt-[6.5rem]"
       id="top"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute right-[-8%] top-[-20%] h-[34rem] w-[34rem] rounded-full bg-[var(--accent)] opacity-[0.06] blur-[100px]" />
-        <div className="absolute bottom-[-8%] left-[-6%] h-[20rem] w-[20rem] rounded-full border border-[var(--line)] bg-[var(--background)]/60 blur-3xl" />
-        <div
-          className="absolute inset-0 opacity-[0.38]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, var(--line) 1px, transparent 1px), linear-gradient(to bottom, var(--line) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-            maskImage:
-              "radial-gradient(ellipse 60% 52% at 50% 0%, black 0%, transparent 72%)",
-          }}
+        <motion.div
+          className="absolute right-[-8%] top-[-20%] h-[34rem] w-[34rem] rounded-full bg-[var(--accent)] opacity-[0.06] blur-[100px]"
+          style={shouldReduceMotion ? undefined : { y: glowY, x: glowX }}
+          animate={floatingGlow}
         />
+        <motion.div
+          className="absolute bottom-[-8%] left-[-6%] h-[20rem] w-[20rem] rounded-full border border-[var(--line)] bg-[var(--background)]/60 blur-3xl"
+          style={shouldReduceMotion ? undefined : { y: glowY, x: glowX }}
+          animate={shouldReduceMotion ? undefined : { y: [0, 16, 0], x: [0, 8, 0], transition: { duration: 12, repeat: Infinity, ease: [0.42, 0, 0.58, 1] as const } }}
+        />
+        <motion.div
+          className="absolute inset-0 opacity-[0.38]"
+          style={shouldReduceMotion ? undefined : { y: gridY }}
+          aria-hidden="true"
+        >
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, var(--line) 1px, transparent 1px), linear-gradient(to bottom, var(--line) 1px, transparent 1px)",
+              backgroundSize: "64px 64px",
+              maskImage:
+                "radial-gradient(ellipse 60% 52% at 50% 0%, black 0%, transparent 72%)",
+            }}
+          />
+        </motion.div>
       </div>
 
       <div className="grid items-center gap-12 lg:grid-cols-[1.22fr_0.78fr]">
@@ -56,7 +85,7 @@ export default function Hero() {
           <motion.div
             className="mb-8 flex flex-wrap items-center justify-between gap-4"
             variants={heroContent}
-            transition={motionTransition}
+            transition={{ ...motionTransition, delay: 0.02 }}
           >
             <div className="flex items-center gap-3">
               <span className="h-px w-12 bg-[var(--accent)]" />
@@ -65,13 +94,21 @@ export default function Hero() {
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--background)]/70 px-3.5 py-1.5 text-[.72rem] font-medium text-[var(--muted)] shadow-[0_8px_22px_rgba(16,42,28,0.03)] backdrop-blur-sm">
+            <motion.div
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--background)]/70 px-3.5 py-1.5 text-[.72rem] font-medium text-[var(--muted)] shadow-[0_8px_22px_rgba(16,42,28,0.03)] backdrop-blur-sm"
+              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+              transition={{ duration: 0.2 }}
+            >
               <span className="relative flex h-[7px] w-[7px]">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" />
+                <motion.span
+                  className="absolute inline-flex h-full w-full rounded-full bg-[var(--accent)] opacity-75"
+                  animate={shouldReduceMotion ? undefined : { scale: [1, 1.8, 1], opacity: [0.8, 0.2, 0.8] }}
+                  transition={shouldReduceMotion ? { duration: 0 } : { duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                />
                 <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-[var(--accent)]" />
               </span>
               Available for new projects
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div className="max-w-[900px]" variants={heroContent} transition={motionTransition}>
@@ -91,26 +128,32 @@ export default function Hero() {
           <motion.div
             className="mt-10 flex flex-wrap items-center gap-4"
             variants={heroContent}
-            transition={motionTransition}
+            transition={{ ...motionTransition, delay: 0.08 }}
           >
-            <a
-              className="group inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-6 py-3.5 text-[.82rem] font-medium text-[var(--background)] shadow-[0_16px_35px_rgba(35,131,79,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:brightness-110 hover:text-[var(--background)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            <motion.a
+              whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.01 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-6 py-3.5 text-[.82rem] font-medium text-[var(--background)] shadow-[0_16px_35px_rgba(35,131,79,0.22)] transition-all duration-200 hover:brightness-110 hover:text-[var(--background)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
               href="#contact"
             >
               Let&apos;s build something
-              <span
-                className="text-[1rem] leading-none text-[var(--background)] transition-transform duration-300 group-hover:translate-x-1"
+              <motion.span
+                className="text-[1rem] leading-none text-[var(--background)]"
+                animate={shouldReduceMotion ? undefined : { x: [0, 4, 0] }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
                 aria-hidden="true"
               >
                 →
-              </span>
-            </a>
-            <a
-              className="inline-flex items-center gap-2.5 rounded-full border border-[var(--line)] bg-[var(--background)]/60 px-6 py-3.5 text-[.82rem] font-medium text-[var(--foreground)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              </motion.span>
+            </motion.a>
+            <motion.a
+              whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.99 }}
+              className="inline-flex items-center gap-2.5 rounded-full border border-[var(--line)] bg-[var(--background)]/60 px-6 py-3.5 text-[.82rem] font-medium text-[var(--foreground)] transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--accent)]"
               href="#about"
             >
               More about me
-            </a>
+            </motion.a>
           </motion.div>
         </motion.div>
 
@@ -123,7 +166,8 @@ export default function Hero() {
         >
           <motion.div
             className="rounded-[28px] border border-[var(--line)] bg-[rgba(255,255,255,0.32)] p-5 shadow-[0_28px_80px_rgba(16,42,28,0.08)] backdrop-blur-md dark:bg-[color-mix(in_srgb,var(--background)_90%,var(--accent)_10%)]"
-            whileHover={shouldReduceMotion ? undefined : { y: -5, transition: { duration: 0.3 } }}
+            whileHover={shouldReduceMotion ? undefined : { y: -6, rotateX: 2, transition: { duration: 0.28, ease: "easeOut" } }}
+            style={{ transformPerspective: 1200 }}
           >
             <div className="mb-5 flex items-center justify-between">
               <span className="text-[.68rem] font-semibold uppercase tracking-[.18em] text-[var(--muted)]">
@@ -170,12 +214,13 @@ export default function Hero() {
         animate="visible"
         variants={heroContainer}
       >
-        {stats.map((stat) => (
+        {stats.map((stat, index) => (
           <motion.div
             key={stat.label}
-            className="rounded-2xl border border-[var(--line)] bg-[rgba(255,255,255,0.24)] p-4 shadow-[0_12px_30px_rgba(16,42,28,0.04)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/50 dark:bg-[color-mix(in_srgb,var(--background)_92%,var(--accent)_8%)]"
+            className="rounded-2xl border border-[var(--line)] bg-[rgba(255,255,255,0.24)] p-4 shadow-[0_12px_30px_rgba(16,42,28,0.04)] backdrop-blur-sm transition-all duration-300 hover:border-[var(--accent)]/50 dark:bg-[color-mix(in_srgb,var(--background)_92%,var(--accent)_8%)]"
             variants={heroContent}
-            transition={motionTransition}
+            transition={{ ...motionTransition, delay: shouldReduceMotion ? 0 : index * 0.06 }}
+            whileHover={shouldReduceMotion ? undefined : { y: -6, scale: 1.01 }}
           >
             <div className="mb-2 h-px w-10 bg-[var(--accent)]/80" />
             <span className="block text-[1.8rem] font-medium tracking-[-.05em] text-[var(--foreground)] sm:text-[2rem]">

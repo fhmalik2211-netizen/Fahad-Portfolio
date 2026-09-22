@@ -91,30 +91,34 @@ export default function ServicesSection() {
           },
         }}
       >
-        {services.map((service) => (
+        {services.map((service, index) => (
           <motion.article
             key={service.number}
-            className="group min-h-[220px] bg-[var(--background)] p-6 transition-colors duration-300 hover:bg-[color-mix(in_srgb,var(--background)_88%,var(--accent)_12%)] sm:p-7"
+            className="group min-h-[220px] bg-[var(--background)] p-6 transition-colors duration-300 sm:p-7"
             variants={{
-              hidden: { opacity: 0, y: 16 },
-              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 0, y: 28, scale: 0.97 },
+              visible: { opacity: 1, y: 0, scale: 1 },
             }}
             transition={
               shouldReduceMotion
                 ? { duration: 0 }
-                : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+                : { duration: 0.7, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }
             }
+            whileHover={shouldReduceMotion ? undefined : { y: -8, rotateX: 3, rotateY: -2, scale: 1.015 }}
+            style={{ transformPerspective: 1200 }}
           >
             <div className="flex items-start justify-between gap-4">
               <span className="text-[.68rem] font-bold tracking-[.14em] text-[var(--accent)]">
                 {service.number}
               </span>
-              <span
-                className="text-[1.15rem] text-[var(--accent)] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+              <motion.span
+                className="text-[1.15rem] text-[var(--accent)]"
                 aria-hidden="true"
+                whileHover={shouldReduceMotion ? undefined : { x: 2, y: -2 }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
               >
                 ↗
-              </span>
+              </motion.span>
             </div>
             <h3 className="mt-12 max-w-[220px] text-[1.22rem] font-medium leading-[1.05] tracking-[-.035em] text-[var(--foreground)]">
               {service.title}

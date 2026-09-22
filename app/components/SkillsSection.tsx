@@ -1,3 +1,7 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+
 const skills = [
   {
     category: "Frontend",
@@ -14,42 +18,57 @@ const skills = [
 ];
 
 export default function SkillsSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section
+    <motion.section
       className="mx-auto max-w-[1240px] border-t border-[var(--line)] px-[5vw] pb-32 pt-16"
       id="skills"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
     >
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <motion.div
+        className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
+        variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}
+        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      >
         <h2 className="m-0 text-[1.9rem] font-medium tracking-[-.03em] text-[var(--foreground)]">
           Core skills
         </h2>
         <p className="m-0 max-w-[380px] text-[.88rem] leading-[1.5] text-[var(--muted)] sm:text-right">
           I like building systems that work cleanly for both users and teams.
         </p>
-      </div>
+      </motion.div>
 
       <div className="mt-14 grid gap-6 md:grid-cols-3">
-        {skills.map((group) => (
-          <div
+        {skills.map((group, index) => (
+          <motion.div
             key={group.category}
-            className="rounded-2xl border border-[var(--line)] bg-[var(--background)] p-6"
+            className="rounded-2xl border border-[var(--line)] bg-[var(--background)] p-6 shadow-[0_12px_28px_rgba(16,42,28,0.02)]"
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={shouldReduceMotion ? undefined : { y: -4, transition: { duration: 0.25 } }}
           >
             <p className="m-0 mb-5 text-[.68rem] font-bold uppercase tracking-[.15em] text-[var(--muted)]">
               {group.category}
             </p>
             <div className="flex flex-wrap gap-2">
               {group.items.map((item) => (
-                <span
+                <motion.span
                   key={item}
                   className="rounded-full border border-[var(--line)] px-3 py-1.5 text-[.76rem] text-[var(--foreground)]"
+                  whileHover={shouldReduceMotion ? undefined : { y: -2, borderColor: "var(--accent)" }}
+                  transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
                 >
                   {item}
-                </span>
+                </motion.span>
               ))}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }

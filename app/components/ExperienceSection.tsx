@@ -1,3 +1,7 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+
 const experiences = [
   {
     duration: "1 year +",
@@ -23,22 +27,38 @@ const experiences = [
 ];
 
 export default function ExperienceSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section className="mx-auto max-w-[1240px] px-[5vw] py-24" id="experience">
-      <div className="mb-14 flex flex-col gap-3">
+    <motion.section
+      className="mx-auto max-w-[1240px] px-[5vw] py-24"
+      id="experience"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+    >
+      <motion.div
+        className="mb-14 flex flex-col gap-3"
+        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
         <p className="m-0 text-[.69rem] font-bold uppercase tracking-[.16em] text-[var(--muted)]">
           04 / Experience
         </p>
         <h2 className="m-0 text-[clamp(2.2rem,4.2vw,4.4rem)] font-medium leading-[.98] tracking-[-.07em] text-[var(--foreground)]">
           Professional experience
         </h2>
-      </div>
+      </motion.div>
 
       <div className="relative space-y-5 before:absolute before:bottom-0 before:left-[1.1rem] before:top-0 before:w-px before:bg-[var(--line)] before:content-[''] sm:before:left-[2.1rem]">
-        {experiences.map((item) => (
-          <article
+        {experiences.map((item, index) => (
+          <motion.article
             key={item.company}
-            className="relative rounded-[26px] border border-[var(--line)] bg-[color-mix(in_srgb,var(--background)_78%,white_22%)] p-5 shadow-[0_16px_40px_rgba(16,42,28,0.04)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-[var(--accent)]/50 sm:p-7 dark:bg-[color-mix(in_srgb,var(--background)_60%,#1d2a23_40%)]" 
+            className="relative rounded-[26px] border border-[var(--line)] bg-[color-mix(in_srgb,var(--background)_78%,white_22%)] p-5 shadow-[0_16px_40px_rgba(16,42,28,0.04)] backdrop-blur-sm sm:p-7 dark:bg-[color-mix(in_srgb,var(--background)_60%,#1d2a23_40%)]"
+            variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={shouldReduceMotion ? undefined : { y: -4, transition: { duration: 0.2 } }}
           >
             <div className="flex items-start gap-4 sm:gap-6">
               <div className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--background)] text-[.72rem] font-semibold text-[var(--accent)] sm:h-11 sm:w-11">
@@ -66,9 +86,9 @@ export default function ExperienceSection() {
                 </p>
               </div>
             </div>
-          </article>
+          </motion.article>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }

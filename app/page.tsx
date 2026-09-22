@@ -14,8 +14,8 @@ const ExperienceSection = dynamic(() => import("./components/ExperienceSection")
 const ContactSection = dynamic(() => import("./components/ContactSection"));
 
 const sectionAnimation = {
-  hidden: { opacity: 0, y: 22 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 42, scale: 0.985 },
+  visible: { opacity: 1, y: 0, scale: 1 },
 };
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
 
   const revealTransition = shouldReduceMotion
     ? { duration: 0 }
-    : { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const };
+    : { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
     <>

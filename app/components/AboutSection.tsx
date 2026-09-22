@@ -1,31 +1,70 @@
+"use client";
+
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
+
+const reveal = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function AboutSection() {
+  const shouldReduceMotion = useReducedMotion();
+  const transition = shouldReduceMotion
+    ? { duration: 0 }
+    : { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const };
+
   return (
-    <section className="mx-auto max-w-[1240px] border-t border-[var(--line)] px-[5vw] pb-32 pt-8" id="about">
-      <div>
+    <motion.section
+      className="mx-auto max-w-[1240px] border-t border-[var(--line)] px-[5vw] pb-32 pt-8"
+      id="about"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+    >
+      <motion.div
+        variants={reveal}
+        transition={transition}
+      >
         <p className="m-0 mb-8 text-[.69rem] font-bold uppercase tracking-[.14em] text-[var(--muted)]">
           02 / A little about me
         </p>
-      </div>
+      </motion.div>
 
       <div className="grid gap-10 pt-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14">
-        <div className="relative">
-          <div className="rounded-[32px] border border-[var(--line)] bg-[rgba(255,255,255,0.18)] p-3 shadow-[0_24px_60px_rgba(16,42,28,0.08)] backdrop-blur-sm">
+        <motion.div
+          className="relative"
+          variants={reveal}
+          transition={transition}
+        >
+          <motion.div
+            className="rounded-[32px] border border-[var(--line)] bg-[rgba(255,255,255,0.18)] p-3 shadow-[0_24px_60px_rgba(16,42,28,0.08)] backdrop-blur-sm"
+            whileHover={shouldReduceMotion ? undefined : { y: -6, transition: { duration: 0.25 } }}
+          >
             <div className="overflow-hidden rounded-[24px] border border-[var(--line)] bg-[var(--background)]">
-              <Image
-                src="/ChatGPT Image Sep 20, 2026, 06_12_43 AM.png"
-                alt="Fahad Hassan in a formal suit"
-                width={1086}
-                height={1448}
-                sizes="(max-width: 1024px) 90vw, 600px"
-                className="h-[520px] w-full object-cover object-center md:h-[620px]"
-              />
+              <motion.div
+                whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.4 }}
+              >
+                <Image
+                  src="/ChatGPT Image Sep 20, 2026, 06_12_43 AM.png"
+                  alt="Fahad Hassan in a formal suit"
+                  width={1086}
+                  height={1448}
+                  sizes="(max-width: 1024px) 90vw, 600px"
+                  className="h-[520px] w-full object-cover object-center md:h-[620px]"
+                />
+              </motion.div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="flex flex-col justify-center">
+        <motion.div
+          className="flex flex-col justify-center"
+          variants={reveal}
+          transition={{ ...transition, delay: shouldReduceMotion ? 0 : 0.08 }}
+        >
           <h2 className="m-0 text-[clamp(2.2rem,4vw,4.4rem)] font-medium leading-[.96] tracking-[-.075em] text-[var(--foreground)]">
             Good work lives somewhere between a sharp idea and a human feeling.
           </h2>
@@ -39,17 +78,19 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <a
+          <motion.a
             className="mt-8 inline-flex w-fit items-center gap-2.5 border-b border-[var(--foreground)] pb-2 text-[.78rem] font-medium uppercase tracking-[.12em] text-[var(--foreground)] transition-transform duration-200 hover:translate-x-1"
             href="#contact"
+            whileHover={shouldReduceMotion ? undefined : { x: 6 }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
           >
             More about my approach
             <span className="text-[1.1rem] leading-[.65] text-[var(--accent)]" aria-hidden="true">
               ↘
             </span>
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -42,7 +42,10 @@ export default function Navbar() {
 
   return (
     <>
-      <nav
+      <motion.nav
+        initial={{ opacity: 0, y: -18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         className={`sticky top-3 z-50 mx-auto flex h-[72px] max-w-[1240px] items-center justify-between rounded-full border px-[1.05rem] transition-all duration-300 sm:px-[1.4rem] ${
           scrolled
             ? "border-[var(--line)] bg-[color-mix(in_srgb,var(--background)_86%,transparent)] shadow-[0_18px_40px_rgba(16,42,28,0.06)] backdrop-blur-xl"
@@ -65,19 +68,23 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-7 text-[.72rem] font-medium tracking-[.12em] text-[var(--muted)] uppercase sm:flex">
           {navLinks.map((link) => (
-            <a
+            <motion.a
               key={link.href}
               href={link.href}
+              whileHover={{ y: -1 }}
+              transition={{ duration: 0.2 }}
               className="group relative py-2 transition-colors duration-200 hover:text-[var(--foreground)]"
             >
               {link.label}
               <span className="absolute inset-x-0 -bottom-[7px] h-[1.5px] origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
-            </a>
+            </motion.a>
           ))}
         </div>
 
         <div className="flex items-center gap-3 sm:gap-4">
-          <a
+          <motion.a
+            whileHover={{ y: -1 }}
+            transition={{ duration: 0.2 }}
             className="hidden items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--background)]/80 px-3 py-1.5 text-[.68rem] font-medium tracking-[.04em] text-[var(--muted)] shadow-[0_8px_20px_rgba(16,42,28,0.02)] transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--foreground)] sm:flex"
             href="/contact"
           >
@@ -86,10 +93,12 @@ export default function Navbar() {
               <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-[var(--accent)]" />
             </span>
             Available for work
-          </a>
+          </motion.a>
 
-          <button
-            className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-[var(--line)] bg-[var(--background)]/80 text-[var(--foreground)] shadow-[0_8px_20px_rgba(16,42,28,0.03)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)] active:scale-95"
+          <motion.button
+            whileHover={{ y: -1, rotate: 3 }}
+            whileTap={{ scale: 0.96 }}
+            className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-[var(--line)] bg-[var(--background)]/80 text-[var(--foreground)] shadow-[0_8px_20px_rgba(16,42,28,0.03)] transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--accent)]"
             type="button"
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
@@ -109,9 +118,11 @@ export default function Navbar() {
             >
               ☾
             </span>
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            whileHover={{ y: -1 }}
             type="button"
             onClick={() => setMobileOpen((open) => !open)}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--background)]/80 text-[var(--foreground)] shadow-[0_8px_20px_rgba(16,42,28,0.03)] transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--accent)] sm:hidden"
@@ -123,9 +134,9 @@ export default function Navbar() {
               <span className={`block h-0.5 w-4 rounded-full bg-current transition-all ${mobileOpen ? "opacity-0" : "opacity-100"}`} />
               <span className={`block h-0.5 w-4 rounded-full bg-current transition-all ${mobileOpen ? "-translate-y-2 -rotate-45" : ""}`} />
             </span>
-          </button>
+          </motion.button>
         </div>
-      </nav>
+      </motion.nav>
 
       <AnimatePresence>
         {mobileOpen && (
