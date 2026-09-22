@@ -34,17 +34,18 @@ export async function POST(request: Request) {
     const baseUrl = process.env.AI_BASE_URL || DEFAULT_BASE_URL;
     const model = process.env.AI_MODEL || DEFAULT_MODEL;
 
-    const upstreamResponse = await fetch(`${baseUrl.replace(/\/$/, "")}/chat/completions`, {
+   // ...existing code...
+
+    const response = await fetch(`${baseUrl}/chat/completions`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-        "X-Title": "Fahad Portfolio Agent",
+        Authorization: `Bearer ${apiKey}`,
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "Fahad Portfolio",
       },
       body: JSON.stringify({
         model,
-        temperature: 0.7,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userMessage },
@@ -52,10 +53,12 @@ export async function POST(request: Request) {
       }),
     });
 
-    const contentType = upstreamResponse.headers.get("content-type") || "";
-    const responseText = await upstreamResponse.text();
+// ...existing code...
 
-    if (!upstreamResponse.ok) {
+    const contentType = response.headers.get("content-type") || "";
+    const responseText = await response.text();
+
+    if (!response.ok) {
       let errorMessage = "The external AI model is unavailable at the moment.";
 
       if (contentType.includes("application/json")) {
@@ -69,7 +72,7 @@ export async function POST(request: Request) {
         errorMessage = responseText || errorMessage;
       }
 
-      return Response.json({ error: errorMessage }, { status: upstreamResponse.status || 500 });
+      return Response.json({ error: errorMessage }, { status: response.status || 500 });
     }
 
     if (!contentType.includes("application/json")) {

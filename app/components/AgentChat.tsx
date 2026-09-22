@@ -44,19 +44,23 @@ export default function AgentChat() {
     setInput("");
     setIsLoading(true);
 
+  // ...existing code...
+
     try {
       const response = await fetch("/api/agent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: cleanedInput }),
+        body: JSON.stringify({
+          message: cleanedInput,
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data?.error || "Unable to get a response right now.");
+        throw new Error(data?.error || "Assistant request failed.");
       }
 
       setMessages((current) => [
@@ -64,6 +68,7 @@ export default function AgentChat() {
         { role: "assistant", content: data.answer || "I’m here to help." },
       ]);
     } catch (error) {
+// ...existing code... catch (error) {
       const message =
         error instanceof Error
           ? error.message
