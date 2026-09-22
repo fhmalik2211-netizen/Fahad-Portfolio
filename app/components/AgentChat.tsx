@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useState } from "react";
 
 const quickPrompts = [
   { label: "Services", message: "Tell me about your services" },
@@ -25,11 +25,6 @@ export default function AgentChat() {
         "Hi! I’m Fahad’s portfolio assistant. Ask about services, project experience, stack, or collaboration.",
     },
   ]);
-
-  const lastMessage = useMemo(
-    () => messages[messages.length - 1],
-    [messages],
-  );
 
   const sendMessage = async (message: string) => {
     const cleanedInput = message.trim();
