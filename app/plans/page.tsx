@@ -1,20 +1,8 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-
-export const metadata: Metadata = {
-  title: "Plans",
-  description:
-    "Explore flexible engagement plans for design, development, and product support with Fahad Hassan.",
-  alternates: { canonical: "/plans" },
-  openGraph: {
-    title: "Plans | Fahad Hassan",
-    description:
-      "Choose a support plan for website design, product builds, or ongoing digital care.",
-    type: "website",
-    url: "/plans",
-  },
-};
 
 const plans = [
   {
@@ -69,6 +57,39 @@ const deliverables = [
 ];
 
 export default function PlansPage() {
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  async function handlePlanSelect(planName: string) {
+    setLoadingPlan(planName);
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+      const response = await fetch(`${apiUrl}/api/payments/create-checkout-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          planName,
+          email: "",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success || !data.checkoutUrl) {
+        throw new Error(data.error || "Unable to start the payment flow.");
+      }
+
+      window.location.href = data.checkoutUrl;
+    } catch (error) {
+      console.error("Stripe checkout error:", error);
+      alert(error instanceof Error ? error.message : "Something went wrong while starting checkout.");
+    } finally {
+      setLoadingPlan(null);
+    }
+  }
+
   return (
     <>
       <a
@@ -136,8 +157,10 @@ export default function PlansPage() {
                   ))}
                 </ul>
 
-                <a
-                  href="/contact"
+                <button
+                  type="button"
+                  onClick={() => handlePlanSelect(plan.name)}
+                  disabled={loadingPlan === plan.name}
                   className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-4 py-3 text-[0.75rem] font-semibold uppercase tracking-[0.12em] transition-all duration-200 ${
                     plan.featured
                       ? "hover:translate-y-[-1px]"
@@ -148,16 +171,18 @@ export default function PlansPage() {
                       ? {
                           backgroundColor: "var(--foreground)",
                           color: "var(--background)",
+                          cursor: loadingPlan === plan.name ? "wait" : "pointer",
                         }
                       : {
                           backgroundColor: "color-mix(in srgb, var(--background) 80%, white 20%)",
                           borderColor: "var(--line)",
                           color: "var(--foreground)",
+                          cursor: loadingPlan === plan.name ? "wait" : "pointer",
                         }
                   }
                 >
-                  {plan.cta}
-                </a>
+                  {loadingPlan === plan.name ? "Preparing..." : plan.cta}
+                </button>
               </article>
             ))}
           </div>
@@ -194,12 +219,13 @@ export default function PlansPage() {
                 your timeline, goals, and current product needs.
               </p>
 
-              <a
-                href="/contact"
+              <button
+                type="button"
+                onClick={() => window.location.href = "/contact"}
                 className="mt-8 inline-flex w-full items-center justify-center rounded-full px-4 py-3 text-[0.74rem] font-semibold uppercase tracking-[0.12em] transition-transform duration-200 hover:-translate-y-0.5"
                 style={{
-                  backgroundColor: "var(--foreground)",
-                  color: "var(--background)",
+                  backgroundColor: "var(--background)",
+                  color: "var(--foreground)",
                   display: "inline-flex",
                   width: "100%",
                   textAlign: "center",
@@ -207,7 +233,7 @@ export default function PlansPage() {
                 }}
               >
                 Request a custom quote
-              </a>
+              </button>
             </div>
           </div>
         </section>

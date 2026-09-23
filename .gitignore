@@ -32,6 +32,16 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+Backend/.env
+Backend/.env.*
+
+# local backend generated files
+Backend/node_modules/
+Backend/.next/
+
+# stripe / mongo / local runtime data
+*.local
+*.log
 
 # vercel
 .vercel
