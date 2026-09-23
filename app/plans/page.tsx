@@ -1,53 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-
-const plans = [
-  {
-    name: "Starter",
-    price: "$70",
-    description: "A clean, quick-start website for personal brands and early-stage businesses.",
-    featured: false,
-    cta: "Book Starter",
-    perks: [
-      "1-page personal or business landing page",
-      "Mobile-friendly layout with basic sections",
-      "Contact CTA and simple inquiry form",
-      "1 round of revision",
-      "Fast launch and deployment support",
-    ],
-  },
-  {
-    name: "Growth",
-    price: "$130",
-    description: "A stronger service site with more depth, structure, and conversion-focused details.",
-    featured: true,
-    cta: "Book Growth",
-    perks: [
-      "Up to 3-5 pages with service and portfolio sections",
-      "Custom UI layout and consistent visual system",
-      "SEO basics, metadata, and page structure",
-      "Responsive design across common devices",
-      "2 rounds of revision and front-end handoff",
-    ],
-  },
-  {
-    name: "Scale",
-    price: "$210",
-    description: "A more premium business website built for credibility, lead generation, and growth.",
-    featured: false,
-    cta: "Book Scale",
-    perks: [
-      "Multi-page business website with advanced sections",
-      "Custom animations, premium visual treatment, and UX polish",
-      "Lead capture forms, service logic, and call-to-action flows",
-      "Structured content blocks and optimization guidance",
-      "3 rounds of revision and launch QA",
-    ],
-  },
-];
+import { plans } from "./plans-data";
 
 const deliverables = [
   "Clear digital strategy rooted in your goals",
@@ -57,37 +14,13 @@ const deliverables = [
 ];
 
 export default function PlansPage() {
+  const router = useRouter();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
-  async function handlePlanSelect(planName: string) {
+  function handlePlanSelect(planName: string) {
     setLoadingPlan(planName);
-
-    try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-      const response = await fetch(`${apiUrl}/api/payments/create-checkout-session`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          planName,
-          email: "",
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success || !data.checkoutUrl) {
-        throw new Error(data.error || "Unable to start the payment flow.");
-      }
-
-      window.location.href = data.checkoutUrl;
-    } catch (error) {
-      console.error("Stripe checkout error:", error);
-      alert(error instanceof Error ? error.message : "Something went wrong while starting checkout.");
-    } finally {
-      setLoadingPlan(null);
-    }
+    router.push(`/plans/checkout?plan=${encodeURIComponent(planName)}`);
+    setLoadingPlan(null);
   }
 
   return (
@@ -132,7 +65,7 @@ export default function PlansPage() {
                       {plan.name}
                     </p>
                     <div className="mt-4 flex items-end gap-2">
-                      <span className="text-4xl font-black tracking-[-0.08em]">{plan.price}</span>
+                      <span className="text-4xl font-black tracking-[-0.08em]">${plan.price}</span>
                       <span className="pb-1 text-sm text-[var(--muted)]">/ project</span>
                     </div>
                   </div>
