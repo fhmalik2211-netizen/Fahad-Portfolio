@@ -37,6 +37,7 @@ export default function Navbar() {
     { href: "/#skills", label: "Skills" },
     { href: "/#services", label: "Services" },
     { href: "/#experience", label: "Experience" },
+    { href: "/plans", label: "Plans" },
     { href: "/contact", label: "Contact" },
   ];
 
